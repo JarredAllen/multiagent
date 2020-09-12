@@ -15,10 +15,10 @@ pub trait GameState: Sized {
     }
 
     /// Returns the state which results from the given action, if that action is legal.
-    fn successor(&self, action: Self::Action) -> Option<Self>;
+    fn successor(&self, action: &Self::Action) -> Option<Self>;
 
     /// Returns whether or not the given action is legal
-    fn is_legal(&self, action: Self::Action) -> bool {
+    fn is_legal(&self, action: &Self::Action) -> bool {
         self.successor(action).is_some()
     }
 }
