@@ -52,7 +52,14 @@ where
         let maximizing = is_maximizer(&state.next_agent().unwrap());
         for action in Action::into_enum_iter().filter(|action| state.is_legal(action)) {
             let successor_state = state.successor(&action).unwrap();
-            let (_, utility) = minimax_helper(&successor_state, depth-1, eval_fn, is_maximizer, alpha, beta);
+            let (_, utility) = minimax_helper(
+                &successor_state,
+                depth - 1,
+                eval_fn,
+                is_maximizer,
+                alpha,
+                beta,
+            );
             if maximizing {
                 if best_utility.map_or(true, |best_utility| utility > best_utility) {
                     best_utility = Some(utility);
