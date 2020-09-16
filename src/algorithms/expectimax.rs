@@ -1,6 +1,6 @@
 use crate::GameState;
 
-use std::{cmp::Ord, ops::{Add, Mul}};
+use std::{cmp::PartialOrd, ops::{Add, Mul}};
 
 /// A function which performs expectimax for the given game state, to the given depth, and returns
 /// the action which the current agent should take.
@@ -22,7 +22,7 @@ where
     Action: enum_iterator::IntoEnumIterator,
     EvaluationFunction: Fn(&State) -> Utility + Copy,
     AgentKindFunction: Fn(&Agent) -> ExpectimaxAgentType + Copy,
-    Utility: Ord + Copy + Add<Output=Utility> + Mul<f32, Output=Utility> + Default,
+    Utility: PartialOrd + Copy + Add<Output=Utility> + Mul<f32, Output=Utility> + Default,
 {
     if state.is_finished() {
         (None, eval_fn(state))
