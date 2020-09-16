@@ -3,21 +3,26 @@ use lib::*;
 
 use std::io::{self, Stdin, Write};
 
-use multiagent::{minimax, GameState};
+use multiagent::{expectimax, ExpectimaxAgentType, GameState};
 
 fn get_player_move(game: &TicTacToeBoard) -> Position {
     get_input_position(&mut io::stdin(), "Which position would you like to play? [0-9]", &game)
 }
 fn get_ai_move(game: &TicTacToeBoard) -> Position {
-    let action = minimax(
+    let action = expectimax(
         game,
         9,
         |state| match state.winner() {
-            Some(Player::O) => 1,
-            Some(Player::X) => -1,
-            None => 0,
+            Some(Player::O) => 1.,
+            Some(Player::X) => -1.,
+            None => 0.,
         },
-        |player| player == &Player::O,
+        // If we're being formally correct, you would need to actually figure out which one the AI
+        // is playing as. I'm too lazy to implement it correctly, so I just change this to
+        // whichever one the AI is playing as this time.
+        // That would be bad if I was trying to actually write something good, but the point of
+        // this is just to be an example of how to use the library, so it's good enough for me.
+        |player| if player == &Player::O { ExpectimaxAgentType::Maximizer } else { ExpectimaxAgentType::Random },
     );
     println!("AI played: {:?}", action);
     action.0.unwrap()
